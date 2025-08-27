@@ -4,6 +4,7 @@ import ArtsGallery from './pages/ArtsGallery';
 import HomePage from './pages/HomePage';
 import StarfieldBackground from './effects/StarfieldBackground';
 import CosmicCursor from './effects/CosmicCursor';
+import Header from './components/Header';
 
 const App = () => {
   // Core State
@@ -12,13 +13,13 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true)
   // Theme & Menu Panel State
   const [themePanelOpen, setThemePanelOpen] = useState(false)
-  const [menuNames, setMenuNames] = useState([
+  const [menuNames] = useState([
     'home', 'services', 'arts', 'education', 'community', 'contact'
   ])
-  // Set this to true for admin, false for normal users
-  const isAdmin = false; // CHANGE to true for admin access
+  // Admin flag for UI controls
+  const isAdmin = false; // Set to true for admin access
   // Per-section theme state
-  const defaultSectionTheme = {
+  const defaultSectionTheme = React.useMemo(() => ({
     colorVars: {
       sage: getComputedStyle(document.documentElement).getPropertyValue('--sage') || '#87a96b',
       amethyst: getComputedStyle(document.documentElement).getPropertyValue('--amethyst') || '#9b7cb6',
@@ -31,7 +32,7 @@ const App = () => {
     glassAlpha: 0.1,
     effectType: 'glass',
     combineEffects: []
-  }
+  }), []);
   const [sectionThemes, setSectionThemes] = useState(() => {
     const obj = {}
     menuNames.forEach(name => { obj[name] = { ...defaultSectionTheme } })
@@ -120,18 +121,9 @@ const App = () => {
       return newThemes
     })
     if (!menuNames.includes(selectedSection)) setSelectedSection(menuNames[0])
-  }, [menuNames])
+  }, [menuNames, defaultSectionTheme, selectedSection])
 
-  // (Removed duplicate handleColorChange and handleGlassChange)
-  const handleMenuNameChange = (idx, val) => {
-    setMenuNames(names => names.map((n, i) => i === idx ? val : n))
-  }
-  const handleMenuAdd = () => {
-    setMenuNames(names => [...names, 'new'])
-  }
-  const handleMenuRemove = (idx) => {
-    setMenuNames(names => names.filter((_, i) => i !== idx))
-  }
+  // Menu editing logic is now handled in Header component
 
   // Initialize app
   useEffect(() => {
@@ -224,77 +216,26 @@ const App = () => {
 
 
       {/* Header */}
-      <header
-        className="header"
-        style={activeSection === 'arts'
-          ? {
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100%',
-              zIndex: 100,
-              background: 'rgba(30,30,30,0.18)',
-              boxShadow: 'none',
-              padding: '0.5rem 0 0.5rem 0',
-              pointerEvents: 'auto',
-              backdropFilter: 'blur(8px)'
-            }
-          : {}}
-      >
-        <div
-          className="nav-container glass"
-          style={activeSection === 'arts'
-            ? {
-                width: '100%',
-                maxWidth: 'none',
-                borderRadius: 32,
-                boxSizing: 'border-box',
-                padding: '0.5rem 2vw',
-                background: 'rgba(30,30,30,0.18)',
-                boxShadow: 'none',
-                pointerEvents: 'auto',
-                backdropFilter: 'blur(8px)'
-              }
-            : {
-                width: '100%',
-                maxWidth: 'none',
-                borderRadius: 32,
-                boxSizing: 'border-box',
-                paddingLeft: '4vw',
-                paddingRight: '4vw'
-              }}
+      <Header onNavigate={navigateToSection} menuNames={menuNames} />
+      {/* Theme Button: Only visible to admins */}
+      {isAdmin && (
+        <button
+          style={{
+            position: 'absolute',
+            top: 14,
+            right: 14,
+            zIndex: 200,
+            fontSize: '0.95rem',
+            padding: '4px 14px',
+            minHeight: 0,
+            minWidth: 0
+          }}
+          className="gradient-button"
+          onClick={() => setThemePanelOpen(v => !v)}
         >
-          <h1 className="gradient-text" style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
-            🕉️ <span contentEditable suppressContentEditableWarning onBlur={() => {}}>The Sovereign Healer</span>
-          </h1>
-          <p style={{ color: 'var(--text-dim)', marginBottom: '1rem' }}>
-            Mind, Body & Spirit Sanctuary
-          </p>
-          <button style={{position:'absolute',top:10,right:10,zIndex:200}} className="gradient-button" onClick={()=>setThemePanelOpen(v=>!v)}>
-            {themePanelOpen ? '✕' : '🎨 Theme'}
-          </button>
-          <nav className="nav-menu" style={{display:'flex',justifyContent:'space-between',gap:'2vw',width:'100%',maxWidth:'100%',margin:'0 auto'}}>
-            {menuNames.map((section, idx) => (
-              <span key={section+idx} style={{display:'flex',alignItems:'center',gap:4}}>
-                <button
-                  className={`nav-item shimmer ${activeSection === section ? 'active' : ''}`}
-                  onClick={() => navigateToSection(section)}
-                >
-                  {isAdmin ? (
-                    <input value={section} onChange={e=>handleMenuNameChange(idx,e.target.value)} style={{background:'none',border:'none',color:'inherit',font:'inherit',width:Math.max(6,section.length)+"ch",textAlign:'center'}} />
-                  ) : (
-                    <span>{section}</span>
-                  )}
-                </button>
-                {isAdmin && (
-                  <button onClick={()=>handleMenuRemove(idx)} style={{background:'none',border:'none',color:'var(--gold)',fontWeight:700,cursor:'pointer'}} title="Remove">×</button>
-                )}
-              </span>
-            ))}
-            <button className="gradient-button" style={{marginLeft:8}} onClick={handleMenuAdd}>＋</button>
-          </nav>
-        </div>
-      </header>
+          {themePanelOpen ? '✕' : '🎨 Theme'}
+        </button>
+      )}
       {/* Theme & Menu Panel */}
       {themePanelOpen && (
         <div style={{position:'fixed',top:80,right:20,zIndex:9999,background:'var(--glass-bg)',backdropFilter:'blur(20px)',border:'1px solid var(--glass-border)',borderRadius:16,padding:24,minWidth:360,boxShadow:'0 8px 32px rgba(0,0,0,0.3)'}}>

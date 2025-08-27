@@ -7,16 +7,10 @@ const socials = [
 	{ href: 'mailto:info@sovereignhealer.com', icon: '✉️', label: 'Email' },
 ];
 
-const navLinks = [
-	{ name: 'Home', id: 'home' },
-	{ name: 'Services', id: 'services' },
-	{ name: 'Arts', id: 'arts' },
-	{ name: 'Education', id: 'education' },
-	{ name: 'Community', id: 'community' },
-	{ name: 'Contact', id: 'contact' },
-];
 
-const Header = ({ onNavigate }) => {
+// navLinks will be passed as menuNames prop from App.jsx
+
+const Header = ({ onNavigate, menuNames }) => {
 	return (
 		<header className="header" style={{ position: 'relative', overflow: 'hidden' }}>
 			{/* Subtle background effect */}
@@ -51,18 +45,18 @@ const Header = ({ onNavigate }) => {
 					Mind, Body & Spirit Sanctuary
 				</p>
 				{/* Navigation */}
-				<nav style={{ display: 'flex', justifyContent: 'center', gap: 18, flexWrap: 'wrap', marginBottom: 24 }}>
-					{navLinks.map(link => (
-						<button
-							key={link.id}
-							className="nav-item shimmer"
-							style={{ background: 'none', border: 'none', color: 'var(--text-light)', fontSize: '1.08rem', fontWeight: 600, cursor: 'pointer', padding: '6px 14px', borderRadius: 8, transition: 'background 0.2s' }}
-							onClick={() => onNavigate && onNavigate(link.id)}
-						>
-							{link.name}
-						</button>
-					))}
-				</nav>
+						<nav style={{ display: 'flex', justifyContent: 'center', gap: 18, flexWrap: 'wrap', marginBottom: 24 }}>
+							{menuNames && menuNames.map((name, idx) => (
+								<button
+									key={name+idx}
+									className="nav-item shimmer"
+									style={{ background: 'none', border: 'none', color: 'var(--text-light)', fontSize: '1.08rem', fontWeight: 600, cursor: 'pointer', padding: '6px 14px', borderRadius: 8, transition: 'background 0.2s' }}
+									onClick={() => onNavigate && onNavigate(name)}
+								>
+									{name.charAt(0).toUpperCase() + name.slice(1)}
+								</button>
+							))}
+						</nav>
 				{/* Video Box */}
 				<div
 					style={{
