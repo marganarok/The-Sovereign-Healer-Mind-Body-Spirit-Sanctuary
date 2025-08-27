@@ -1,3 +1,16 @@
+@media (max-width: 768px) {
+  .header[style*="position: fixed"] {
+    position: fixed !important;
+    width: 100vw;
+    left: 0;
+    top: 0;
+    z-index: 100;
+  }
+  .main-content,
+  .arts-gallery-page {
+    padding-top: 90px !important;
+  }
+}
 /* Aurora, Glow, Meta Effects */
 .aurora-bg {
   background: linear-gradient(120deg, #87a96b 0%, #9b7cb6 50%, #d4af37 100%);

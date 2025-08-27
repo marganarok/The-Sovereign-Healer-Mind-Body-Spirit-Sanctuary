@@ -15,6 +15,8 @@ const App = () => {
   const [menuNames, setMenuNames] = useState([
     'home', 'services', 'arts', 'education', 'community', 'contact'
   ])
+  // Set this to true for admin, false for normal users
+  const isAdmin = false; // CHANGE to true for admin access
   // Per-section theme state
   const defaultSectionTheme = {
     colorVars: {
@@ -278,9 +280,15 @@ const App = () => {
                   className={`nav-item shimmer ${activeSection === section ? 'active' : ''}`}
                   onClick={() => navigateToSection(section)}
                 >
-                  <input value={section} onChange={e=>handleMenuNameChange(idx,e.target.value)} style={{background:'none',border:'none',color:'inherit',font:'inherit',width:Math.max(6,section.length)+"ch",textAlign:'center'}} />
+                  {isAdmin ? (
+                    <input value={section} onChange={e=>handleMenuNameChange(idx,e.target.value)} style={{background:'none',border:'none',color:'inherit',font:'inherit',width:Math.max(6,section.length)+"ch",textAlign:'center'}} />
+                  ) : (
+                    <span>{section}</span>
+                  )}
                 </button>
-                <button onClick={()=>handleMenuRemove(idx)} style={{background:'none',border:'none',color:'var(--gold)',fontWeight:700,cursor:'pointer'}} title="Remove">×</button>
+                {isAdmin && (
+                  <button onClick={()=>handleMenuRemove(idx)} style={{background:'none',border:'none',color:'var(--gold)',fontWeight:700,cursor:'pointer'}} title="Remove">×</button>
+                )}
               </span>
             ))}
             <button className="gradient-button" style={{marginLeft:8}} onClick={handleMenuAdd}>＋</button>
