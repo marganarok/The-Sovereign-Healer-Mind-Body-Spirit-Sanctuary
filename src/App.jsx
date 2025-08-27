@@ -215,27 +215,116 @@ const App = () => {
       
 
 
-      {/* Header */}
-      <Header onNavigate={navigateToSection} menuNames={menuNames} />
-      {/* Theme Button: Only visible to admins */}
-      {isAdmin && (
-        <button
-          style={{
-            position: 'absolute',
-            top: 14,
-            right: 14,
-            zIndex: 200,
-            fontSize: '0.95rem',
-            padding: '4px 14px',
-            minHeight: 0,
-            minWidth: 0
-          }}
-          className="gradient-button"
-          onClick={() => setThemePanelOpen(v => !v)}
-        >
-          {themePanelOpen ? '✕' : '🎨 Theme'}
-        </button>
-      )}
+      {/* Modern Rectangle Header - Global */}
+      {/* Full-width Cosmic Matrix Header */}
+      <div style={{
+        width: '100vw',
+        minWidth: '100%',
+        margin: 0,
+        padding: 0,
+        position: 'relative',
+        top: 0,
+        left: 0,
+        zIndex: 20,
+        overflow: 'hidden',
+        boxShadow: '0 6px 32px 0 rgba(0,255,128,0.10)'
+      }}>
+        {/* Matrix/Cosmic animated background */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          background: 'linear-gradient(120deg, #0f2027 0%, #2c5364 100%)',
+          overflow: 'hidden'
+        }}>
+          <svg width="100%" height="100" style={{ position: 'absolute', top: 0, left: 0 }}>
+            {Array.from({ length: 40 }).map((_, i) => (
+              <rect
+                key={i}
+                x={`${(i * 2.5 + Math.random())}%`}
+                y={0}
+                width={Math.random() * 2 + 1}
+                height={100 + Math.random() * 60}
+                fill={`rgba(0,255,128,${0.08 + Math.random() * 0.18})`}
+                style={{
+                  animation: `matrixDrop 2.5s linear ${Math.random() * 2}s infinite`
+                }}
+              />
+            ))}
+          </svg>
+        </div>
+        <div style={{
+          position: 'relative',
+          zIndex: 2,
+          width: '100%',
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: '1.2rem 2.5rem 0.7rem 2.5rem',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          borderBottomLeftRadius: 24,
+          borderBottomRightRadius: 24,
+          background: 'rgba(18,24,22,0.92)',
+          boxShadow: '0 4px 32px rgba(0,255,128,0.10)',
+          border: '2px solid rgba(0,255,128,0.13)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 6 }}>
+            <span style={{ fontSize: '2.1rem', background: '#00ff80', color: '#111', borderRadius: 8, padding: '2px 10px', fontWeight: 700, boxShadow: '0 2px 8px #00ff8055' }}>🕉️</span>
+            <span className="gradient-text" style={{ fontSize: '2.1rem', fontWeight: 700, letterSpacing: 1, lineHeight: 1, color: '#00ffb2', textShadow: '0 2px 12px #00ff8055' }}>The Sovereign Healer</span>
+          </div>
+          <div style={{ color: '#00ffb2', fontWeight: 500, fontSize: '1.08rem', marginBottom: 12, textShadow: '0 2px 8px #00ff8055' }}>Mind, Body & Spirit Sanctuary</div>
+          <nav style={{ display: 'flex', justifyContent: 'center', gap: 32, margin: '0.5rem 0 0.2rem 0', width: '100%' }}>
+            {menuNames.map(name => (
+              <button
+                key={name}
+                className="nav-item shimmer"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: activeSection === name ? '#111' : '#00ffb2',
+                  fontSize: '1.13rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  padding: '6px 18px',
+                  borderRadius: 8,
+                  letterSpacing: 1,
+                  transition: 'background 0.2s',
+                  textTransform: 'uppercase',
+                  boxShadow: activeSection === name ? '0 0 8px 2px #00ffb2' : 'none',
+                  backgroundColor: activeSection === name ? '#00ffb2' : 'none',
+                }}
+                onClick={() => navigateToSection(name)}
+              >
+                {name}
+              </button>
+            ))}
+          </nav>
+          {/* Theme Button: Only visible to admins */}
+          {isAdmin && (
+            <button
+              style={{
+                position: 'absolute',
+                top: 14,
+                right: 14,
+                zIndex: 200,
+                fontSize: '0.95rem',
+                padding: '4px 14px',
+                minHeight: 0,
+                minWidth: 0,
+                background: '#00ffb2',
+                color: '#111',
+                boxShadow: '0 2px 8px #00ff8055'
+              }}
+              className="gradient-button"
+              onClick={() => setThemePanelOpen(v => !v)}
+            >
+              {themePanelOpen ? '✕' : '🎨 Theme'}
+            </button>
+          )}
+        </div>
+      </div>
       {/* Theme & Menu Panel */}
       {themePanelOpen && (
         <div style={{position:'fixed',top:80,right:20,zIndex:9999,background:'var(--glass-bg)',backdropFilter:'blur(20px)',border:'1px solid var(--glass-border)',borderRadius:16,padding:24,minWidth:360,boxShadow:'0 8px 32px rgba(0,0,0,0.3)'}}>

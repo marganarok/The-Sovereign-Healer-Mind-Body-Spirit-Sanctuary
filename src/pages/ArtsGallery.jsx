@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './ArtsGallery.css';
 import StarfieldBackground from '../effects/StarfieldBackground';
 import CosmicCursor from '../effects/CosmicCursor';
+import Header from '../components/Header';
 
 // Dynamically import all images from public/gallery
 const imageModules = import.meta.glob('/public/gallery/*.{jpg,jpeg,png,gif}', { eager: true, as: 'url' });
@@ -64,6 +65,7 @@ const ArtsGallery = () => {
 
   return (
     <div ref={galleryRef} className="arts-gallery-page aurora-bg" style={{ position: 'relative', zIndex: 1, minHeight: '100vh', paddingTop: 0 }}>
+  {/* ...header removed, only global header remains... */}
       <StarfieldBackground />
       <CosmicCursor />
       {/* Cosmic background particles */}
