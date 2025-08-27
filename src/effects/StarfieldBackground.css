@@ -1,0 +1,8 @@
+.starfield-bg-canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  background: linear-gradient(120deg, #0a0a1a 0%, #1a1a2d 100%);
+  opacity: 1;
+  transition: opacity 0.7s cubic-bezier(.77,0,.18,1);
+}

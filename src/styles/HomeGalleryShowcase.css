@@ -1,0 +1,55 @@
+/* HomeGalleryShowcase.css - unique shapes and placements for 4 gallery images on HomePage */
+.home-gallery-showcase {
+  position: relative;
+  width: 100%;
+  min-height: 340px;
+  margin: 2.5rem 0 2.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2.5rem;
+}
+.home-gallery-img {
+  box-shadow: 0 6px 32px 0 #9b7cb655, 0 1.5px 8px #0008;
+  transition: transform 0.18s, box-shadow 0.18s;
+  object-fit: cover;
+  background: #181828;
+}
+.home-gallery-img.shape-blob {
+  border-radius: 60% 40% 50% 50%/50% 60% 40% 50%;
+  width: 220px;
+  height: 180px;
+  border: 3px solid var(--amethyst,#9b7cb6);
+  margin-left: 2vw;
+}
+.home-gallery-img.shape-circle {
+  border-radius: 50%;
+  width: 140px;
+  height: 140px;
+  border: 3px solid var(--gold,#d4af37);
+  margin-top: 2vw;
+}
+.home-gallery-img.shape-hex {
+  clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0 50%);
+  width: 170px;
+  height: 170px;
+  border: 3px solid var(--emerald,#50fa7b);
+  background: #23234a;
+  margin-right: 2vw;
+}
+.home-gallery-img.shape-rounded {
+  border-radius: 32px 80px 32px 80px/80px 32px 80px 32px;
+  width: 200px;
+  height: 150px;
+  border: 3px solid var(--rose,#ff79c6);
+  margin-bottom: 2vw;
+}
+@media (max-width: 900px) {
+  .home-gallery-showcase {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 0;
+  }
+}

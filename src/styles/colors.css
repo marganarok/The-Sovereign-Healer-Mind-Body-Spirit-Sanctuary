@@ -1,0 +1,20 @@
+/* colors.css - The Sovereign Healer Color System */
+
+:root {
+  /* Primary Brand Colors */
+  --sage: #87a96b;
+  --amethyst: #9b7cb6;
+  --gold: #d4af37;
+  --forest: #2d5016;
+  
+  /* UI Colors */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --bg-dark: #1a1a1a;
+  --text-light: #ffffff;
+  --text-dim: rgba(255, 255, 255, 0.7);
+  
+  /* Gradients */
+  --gradient-brand: linear-gradient(45deg, var(--sage), var(--amethyst), var(--gold));
+  --gradient-bg: linear-gradient(135deg, #1a1a1a 0%, #2d5016 100%);
+}
